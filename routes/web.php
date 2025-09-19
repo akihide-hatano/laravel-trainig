@@ -2,9 +2,18 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Log;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/health', function () {
+    Log::info('health ping', [
+        'ip' => request()->ip(),
+        'ua' => request()->userAgent(),
+    ]);
+    return ['ok' => true];
 });
 
 Route::get('/dashboard', function () {
