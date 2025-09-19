@@ -48,6 +48,22 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        container_name: sail-phpmyadmin
+        platform: linux/amd64
+        environment:
+            PMA_HOST: mysql                 # ← Sail の MySQL サービス名
+            PMA_USER: ${DB_USERNAME:-sail}  # ← .env の値を使用（なければ sail）
+            PMA_PASSWORD: ${DB_PASSWORD:-password}
+            UPLOAD_LIMIT: 200M
+        ports:
+            - "8081:80"                     # http://localhost:8081
+        depends_on:
+            - mysql
+        networks:
+            - sail
+
 networks:
     sail:
         driver: bridge
